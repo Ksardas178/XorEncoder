@@ -37,7 +37,7 @@ public class EncLauncher {
             return;
         }
 
-        codeKey = (codeKey == null ? decodeKey : codeKey);
+        codeKey = (codeKey == null ? decodeKey : codeKey);//Алгоритм работает одинаково в обе стороны
         EncXOR recoder = new EncXOR(codeKey, inputName, outputName);
         try {
             int result = recoder.recode();

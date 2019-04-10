@@ -5,6 +5,7 @@ import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 
+import java.io.File;
 import java.io.IOException;
 
 public class EncLauncher {
@@ -25,6 +26,17 @@ public class EncLauncher {
         new EncLauncher().launch(args);
     }
 
+    private void rename() {
+        int number = 1;
+        String oldName = inputName.replace(".txt", "(");
+        String newName = oldName + number + ").txt";
+        while (new File(newName).isFile()) {
+            number++;
+            newName = oldName + number + ").txt";
+        }
+        outputName = newName;
+    }
+
     private void launch(String[] args) {
         CmdLineParser parser = new CmdLineParser(this);
 
@@ -37,7 +49,8 @@ public class EncLauncher {
             return;
         }
 
-        codeKey = (codeKey == null ? decodeKey : codeKey);//Алгоритм работает одинаково в обе стороны
+        if (codeKey == null) codeKey = decodeKey;//Алгоритм работает одинаково в обе стороны
+        if (outputName == null) rename();
         EncXOR recoder = new EncXOR(codeKey, inputName, outputName);
         try {
             int result = recoder.recode();

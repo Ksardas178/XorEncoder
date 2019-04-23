@@ -49,14 +49,19 @@ public class EncLauncher {
             return;
         }
 
-        if (codeKey == null) codeKey = decodeKey;//Алгоритм работает одинаково в обе стороны
         if (outputName == null) rename();
-        EncXOR recoder = new EncXOR(codeKey, inputName, outputName);
-        try {
-            int result = recoder.recode();
-            System.out.println("Total of " + result + " symbols recoded");
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
+        if (codeKey == null) codeKey = decodeKey;//Алгоритм работает одинаково в обе стороны
+        if (codeKey == null) {
+            System.err.println("Отсутствует ключ (де)кодирования");
+            System.err.println("java -jar XorEncoder.jar [-c key] [-d key] inputName.txt [-o OutputName.txt]");
+        } else {
+            EncXOR recoder = new EncXOR(codeKey, inputName, outputName);
+            try {
+                int result = recoder.recode();
+                System.out.println("Total of " + result + " symbols recoded");
+            } catch (IOException e) {
+                System.err.println(e.getMessage());
+            }
         }
     }
 }

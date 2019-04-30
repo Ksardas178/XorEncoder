@@ -11,7 +11,7 @@ class EncLauncherTest {
             try (FileInputStream out = new FileInputStream(second)) {
                 int symIn = in.read();
                 int symOut = out.read();
-                while (symIn != -1 && symOut != 1) {
+                while (symIn != -1 || symOut != -1) {
                     assertEquals(symIn, symOut);
                     symIn = in.read();
                     symOut = out.read();
